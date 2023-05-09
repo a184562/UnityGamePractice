@@ -1,7 +1,19 @@
 # UnityGamePractice
-유니티로 게임 만들기 기초부터 시작
-
+- 유니티로 게임 만들기 기초부터 시작\
+- 공부 자료
+  - Youtube : "골드메탈"
+  - 해당 유튜브 주소 : "https://www.youtube.com/@goldmetal"
+  - 재생목록 : "https://www.youtube.com/playlist?list=PLO-mt5Iu5TeYI4dbYwWP8JqZMC9iuUIW2"
+---
 ## 2023년 05월 09일
+---
+### 당일 공부 영상
+- https://youtu.be/lYzGTUJxPDQ
+- https://youtu.be/Xtfz4jPaUI0
+- https://youtu.be/1QyynHJ-3Ec
+- https://youtu.be/j6XLEqgq-dE
+
+---
 ### Unity 기본 조작 관련
 1. Unity 게임 설치 및 작동법 숙지(기존에 알고 있었으나 다른 공부로 까먹어서 remind)
 2. C# script 열기
@@ -47,10 +59,9 @@
     2.  해당 파일 안에 다른 파일을 부모와 자식 클래스로 상속 가능
 
 
-
-
-### 오류
+### 당일 생긴 오류
 1. C#의 경우 따옴표('')와 쌍따옴표("")의 구분이 필수적이었다.\
   따옴표의 경우 단 하나의 글자만 품을 수 있으며 그 이상일 경우 반드시 쌍따옴표를 사용해야 했다.
 2. Only assignment, call, increment, decrement, await, and new object expressions can be used as a statement\
 Healing 함수를 Healing();로 표현하지 않고 Healing만 적었다가 생긴 오류
+---
