@@ -65,3 +65,73 @@
 2. Only assignment, call, increment, decrement, await, and new object expressions can be used as a statement\
 Healing 함수를 Healing();로 표현하지 않고 Healing만 적었다가 생긴 오류
 ---
+## 2023년 05월 10일
+---
+### 당일 공부 영상
+- https://youtu.be/PyN3JkPTpAI
+- https://youtu.be/wqRwsW03JR4
+
+
+---
+### 유니티 게임오브젝트 흐름
+1. 초기화
+  - Awake 함수(void Awake()) : 게임 오브젝트 생성 시, 최초 실행
+  - Start 함수(void Start()) : 업데이트 시작 직전, 최초 실행
+2. 물리 연산
+  - FixedUpdate 함수(void FixedUpdate()) : 물리 연산 업데이트
+    - 고정된 실행 주기로 CPU를 많이 사용
+    - 1초에 약 50회 호출(50프레임)
+3. 게임 로직
+  - Update 함수(void Update()) : 게임 로직 업데이트
+    - 사용자 컴퓨터에 따라 실행 횟수가 달라짐
+    - 60 프레임 정도
+  - LateUpdate 함수(void LateUpdate()) : 모든 업데이트가 끝난 후 업데이트
+    - 보통 캐릭터를 따라가는 카메라나 후처리가 들어감
+4. 해체
+   - OnDestry 함수(void OnDestry()) : 게임 오브젝트가 삭제될 때
+5. 활성화(초기화와 물리영역 사이[Awake와 Start 사이])
+   - OnEnable 함수(void OnEnable()) : 게임 오브젝트가 활성화 되었을 때
+6. 비활성화(게임로직과 해체 사이[Update 함수들과 OnDestroy 사이])
+   - OnDisable 함수(void OnDisable()) : 게임 오브젝트가 비활성화 되었을 때
+
+### 키보드 마우스 작동
+1. Unity 기본 제공 class 
+   - Input
+     - 입력함수는 3가지 행동 구분
+       - Down : 누를 때
+       - Stay : 누르고 있을 때(따로 작성 X)
+       - Up : 눌렀다가 뗄 때
+       - 최초의 anyKey만 Down과 일반 anyKey를 구분하고 이후로는 Stay 상태만 작성
+     - Input.anyKeyDown : 아무 입력을 최초로 받을 때 true
+     - Input.anyKey : 입력을 받고 있는 동안(키를 누르고 있는동안 true)
+     - Input.GetKeyUP(KeyCode.{key}) : {key} 키보드 입력을 받으면 true
+       - Enter는 Return
+       - ESC는 Escape
+     - Input.GetMouseButton(num) : 마우스로 클릭할 때
+       - 0 : 마우스 왼쪽 버튼 
+       - 1 : 마우스 오른쪽 버튼
+       - Stay 상태로 기를 모으고 Up으로 쏘는 메가맨 장전 슈팅 느낌 가능(GetKey로도 가능)
+     - Button
+       - Unity - Edit - Project Settings에서 Input Manager로 버튼 추가 가능
+       - Axes를 열고 조작
+         - Size : 버튼의 개수(기본값 18)
+           - Horizontal : 수평 - 좌, 우, a, d
+             - Gravity, Dead, Sensitivity는 잘 안건드림
+           - Vertical : 수직 - 상, 하, w, s
+         - GetButton : Input 버튼 입력을 받으면 true
+           - Input.GetButton("Axe 내 버튼 이름을 문자열로")
+         - Size 숫자를 바꿔주면 기능 개수를 조절 가능
+       - GetAxis : 수평, 수직 입력을 받으면 float로 받음
+       - GetAxisRaw : 값은 -1, 0, 1만 있음
+
+2. 오브젝트 이동
+   - 오브젝트의 위치는 Transform에서 지정
+   - Transform을 따로 선언해줄 필요는 없음
+     - 오브젝트는 변수 tansform을 항상 가지고 있음
+   - transform.Translate({vector}) : 벡터 값을 현재 위치에 더하는 함수
+     - 벡터 : 방향과 그에 대한 크기 값
+     - Vector3(x, y, z)
+     - Vector3는 3차원
+     - Vector2는 2차원
+   - Vector 값에 Input.GetAxis를 통해 이동 값 조정 가능
+
