@@ -134,4 +134,5 @@ Healing 함수를 Healing();로 표현하지 않고 Healing만 적었다가 생�
      - Vector3는 3차원
      - Vector2는 2차원
    - Vector 값에 Input.GetAxis를 통해 이동 값 조정 가능
+---
 
