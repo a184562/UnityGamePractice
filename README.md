@@ -135,4 +135,48 @@ Healing 함수를 Healing();로 표현하지 않고 Healing만 적었다가 생�
      - Vector2는 2차원
    - Vector 값에 Input.GetAxis를 통해 이동 값 조정 가능
 ---
+## 2023년 05월 12일
+---
+### 당일 공부 내용
+- https://blog.naver.com/gold_metal/220472492907
+- https://docs.unity3d.com/kr/2021.3/Manual/class-Rigidbody.html
+- https://solution94.tistory.com/27
+---
+### 오브젝트 점프 구현
+---
+1. 중력 시스템 구현
+  - 중력 시스템은 로직적으로 하는 것이 아닌 유니티 자체 기능 존재
+    - Edit -> Project Settings -> Physics(2D프로그램의 경우 Physics 2D로) -> Gravity로 중력 질량 설정(-9.81이 일반 중력 가속도)
+    - Add Component -> Rigidbody 추가
+      - Mass : 오브젝트의 질량
+      - Drag : 공기저항
+      - Use Gravity : 중력의 영향을 받음
+2. 점프 시스템 구현
+  - Move.cs에 새로 구현
+  - 골드메탈 원형 강의와 약간의 수정
+    - 함수들 외부에 Rigidbody rigid로 설정
+    - Moving, Jump 함수 생성
+    - 함수 밖에 JumpPower와 MoveSpeed 변수 생성
+      - Inspector에 Script를 넣어주고 해당 Inspector에서 JumpPower와 MoveSpeed를 조정해줘서 이동과 점프 구현
+      - 해당 로직만 짤 시 점프버튼 연타시 무한 점프
+        - 해당 문제 해결방안
+          - bool 형태로 isJump 변수 생성(현재 점프 상태인지 파악)
+          - Jump 함수 내부에 점프 상태인지 파악해서 점프 가능한지 여부 구현
+          - 해당 로직에서 끝낼 시 점프를 단 1번만 가능
+          - void OnCollisonEnter(Collision collision) 추가
+          - 해당 함수 안에 만약 "Ground(다른 변수명 가능)"에 닿으면 실행되도록 생성{if(collision.gameObject.ComparreTag("변수명"))}
+          - 바닥을 구성하는 Object에 Ground tag 추가(Inspector Tag에 들어가서 추가)
+          - 무한 점프 해결
+3. 응용(2단 점프) -> 자체 로직 개발(자료 X)
+  - isJump를 int로 받아서 isJump가 2 미만일 때 점프 가능하게 생성
+  - 점프할 때마다 isJump++
+  - 바닥에 닿으면 다시 isJump를 0으로 갱신
 
+### 문제점 및 해결
+- 점프 후 내려오는 속도가 느리다 느낌
+- 찾아보니 Rigidbody의 Drag에 따라 낙하 속도가 달라진다 함
+- Drag가 클수록 떨어지는 속도가 느림
+- 하지만 음수로 떨어뜨릴수 없어 낙하속도를 빠르게 할 수는 없음
+- 중력가속도를 바꿔주면 빨라진다고 함
+- 중력을 바꿔주니 JumpPower가 약하게 받아짐
+- Mass를 바꿔줌(JumpPower를 바꿔주거나 Mass를 바꿔주어 점프 속도를 바꿔줌)
