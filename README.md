@@ -59,7 +59,7 @@
     2.  해당 파일 안에 다른 파일을 부모와 자식 클래스로 상속 가능
 
 
-### 당일 생긴 오류
+### 오늘의 오류
 1. C#의 경우 따옴표('')와 쌍따옴표("")의 구분이 필수적이었다.\
   따옴표의 경우 단 하나의 글자만 품을 수 있으며 그 이상일 경우 반드시 쌍따옴표를 사용해야 했다.
 2. Only assignment, call, increment, decrement, await, and new object expressions can be used as a statement\
@@ -180,3 +180,122 @@ Healing 함수를 Healing();로 표현하지 않고 Healing만 적었다가 생�
 - 중력가속도를 바꿔주면 빨라진다고 함
 - 중력을 바꿔주니 JumpPower가 약하게 받아짐
 - Mass를 바꿔줌(JumpPower를 바꿔주거나 Mass를 바꿔주어 점프 속도를 바꿔줌)
+
+---
+## 2023년 05월 14일
+---
+### 당일 공부 내용
+- https://youtu.be/gnO1GVRuKxk
+- https://youtu.be/QGFaA3WYAwk
+- https://youtu.be/kYmYCMAiOUk
+- https://youtu.be/h_MA36TGFsc
+- https://youtu.be/salZ7t98xi8
+---
+### 목표지점으로 이동시키기
+---
+1. MoveTowards(등속이동)
+  - 매개변수는 현재위치, 목표위치, 속도로 구성
+  - 매개변수에 비례하여 속도 증가
+2. SmoothDamp(부드러운 감속 이동)
+  - 매개변수에 반비례하여 속도 증가
+  - ref : 참조접근 -> 실시간으로 바뀌는 값 적용 가능
+  - SmoothDamp 사용시 보통 zero 값을 씀
+3. Lerp(선형보간)
+  - SmoothDamp보다 감속 시간이 김
+  - MoveTowards와 받는 매개변수는 같으나 소고 최대값은 1
+4. SLerp(구면 선형 보간)
+  - 호를 그리며 이동(포물선 이동)
+---
+### 델타타임
+---
+1. 사용법
+  - Translate : 벡터에 곱하기
+  - Vector 함수 : 시간 매개변수에 곱하기
+  - 입력 받을 때 뒤에 Time.deltaTime을 곱해줌
+2. 개념 : 이전 프레임의 완료까지 걸린 시간
+  - 사용자의 컴퓨터마다 프레임이 다르기 때문에 최적화와 관련된 내용
+  - 프레임이 적으면 크고, 프레임이 많으면 작음
+---
+### 물리법칙 적용
+---
+- 저번에 이동 강의를 듣고 점프 기능을 구현해보고 싶다는 마음으로 대략적인 강의는 보았고 강의영상을 다시 봄(복습 및 심화 느낌)
+
+---
+1. Unity Editor만 사용
+2. Unity는 Component 기반 엔진
+3. Rigidbody를 Add Component로 추가(물리효과를 받기 위한 컴포넌트)
+4. Collider 삭제시 다른 오브젝트와 충돌이 되지 않음(충돌체)
+  - Radius는 반지름으로 충돌 기준을 바꿔줌
+5. Mass 무게(낙하 속도는 바뀌지 않음 충돌이 무거워지는지 가벼워지는지 여부에 영향)
+6. Rigidbody - Use Gravity : 중력에 영향을 받는지 여부
+7. Rigidbody - Is Kinematic : 외부 물리효과 무시 -> script로만 이동 가능 - 움직이는 함정을 만들 때 유용
+8. Material 설정(재질) : 오브젝트의 표면 재질을 결정하는 컴포넌트(Defalut는 편집 불가)
+  - Asset에 새로 Material을 추가하여 설정(편집 가능)
+  - Albedo : 색상
+    - Alㅠedo 옆 작은 박스에 이미지 파일을 집어 넣으면 Texture 적용 가능
+  - Metalic : 금속 재질 수치
+  - Smoothness : 빛 반사 수치
+  - Emission : 텍스쳐 밝기(발광) 조절
+    - 빛이 물리적으로 나오는 것은 아님
+    - 빛을 내는 Component는 Light라고 따로 있음
+  - Tilling : 텍스쳐 반복 수치
+9. Physics Material : 탄성과 마찰을 다루는 물리적인 재질(물리 Material)
+  - 드래그해서 추가시 새로운 Component로 추가되는 것이 아닌 Collider의 Material에 추가됨
+  - Physics Material - Bounciness : 탄성력, 높을수록 많이 튀어오름
+  - Physics Material - Bounciness Combine : 튀어 오른 후 다음 탄성을 계산하는 방식(최대값 1)
+    - Averrage : 이전 탄성의 중간값
+    - Maximum : 대부분 사용하는 탄성, 이전 탄성 보다 점점 커짐(1로 줄 경우)
+  - Physics Material - Friction : 마찰력
+    - Static Friction : 정지 시 마찰력
+    - Dynamic Friction : 이동 시 마찰력
+    - Friction Combine : 다음 마찰력을 계산하는 방식
+10. 물체 필수요소 : Mesh, Material, Collider, RigidBody
+
+---
+### 물체 움직이기
+---
+1. Rigidbody 변수명으로 변수 정의
+2. 함수 안에 GetComponent로 할당
+3. rigid.velocity = Vector3.right(left);로 오른쪽(왼쪽)으로 움직이게 만들어줌
+4. rigid.velocity = new Vector4(x, y, z);로 설정한 x, y, z 방향으로 이동하도록
+5. RigidBody 관련은 ~~FixedUpdate~~ Update에 작성
+6. rigid.AddForce -> 힘의 방향을 지정
+  - rigid.AddForce(Vector3.up * 5, ForceMode.Impulse);
+    - FoeceMode : 힘을 주는 방식(가속, 무게 반영) -> Mass가 클 수록 더 큰 힘이 필요
+      - Impulse : 가장 많이 씀
+  - AddForce로 점프 구현
+    -  ``` if(Input.GetButtonDown("Jump"))
+        {
+            rigid.AddForce(Vector3.up * 50, ForceMode.Impulse);
+        }
+        Vector3 vec = new Vector3(Input.GetAxisRaw("Horizontal"), 0, Input.GetAxisRaw("Vertical"));
+
+        rigid.AddForce(vec, ForceMode.Impulse);
+  - 활용해본 결과 원하는 Jump가 잘 되지 않아 기존 이동 방식을 사용하는 것이 좋아보임
+  - 재확인 결과 기존 방식 사용시 이동 후 오류가 발생
+7. 회전력 주기
+  - AddTorque : 회전력 주기
+    - rigid.AddTorque(Vector3.back); 형식
+    - Vec을 축으로 삼기 때문에 이동 방향에 주의
+
+---
+### 물리 충돌 이벤트
+---
+1. 닿을 시 재질 변경
+  - MeshRenderer를 통해서 변경
+  - OnCollisionEnter : 물리적 충돌이 시작할 때 호출되는 함수
+  - OnCollisionExit : 물리적 충돌이 끝날 때 호출되는 함수
+  - OnCollisionStay : 물리적 충돌 중일 때 호출되는 함수
+  - Color : 기본색상 클래스
+  - Color32 : 255 색상 클래스
+  - Collision : 충돌 정보 클래스
+2. 충돌 시 특수한 이벤트 발생
+  - trigger로 사용하고 싶은 Object에 is Trigger 체크
+  - OnTriggerStay 함수를 사용
+    - OnTrriger 함수 안에 if문으로 만약에 닿으면 어떠한 작동을 하도록 조작
+
+---
+### 오늘의 오류
+---
+1. Jump가 제대로 기능하지 않고 이동 시 다른 오브젝트에 닿으면 오류가 생김
+2. 해결 : 영상에는 FixedUpdate에 함수를 정의해야 한다고 했지만 실제로는 Update에 지정해주어야 정상 작동함 -> 영상의 오류

@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Move : MonoBehaviour
 {
+    
     Rigidbody rigid;
 
     public int JumpPower;
@@ -37,8 +38,8 @@ public class Move : MonoBehaviour
     }
     void Moving()
     {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float x = Input.GetAxisRaw("Horizontal");
+        float z = Input.GetAxisRaw("Vertical");
 
         transform.Translate((new Vector3(x, 0, z) * MoveSpeed) * Time.deltaTime);
     }
@@ -66,5 +67,27 @@ public class Move : MonoBehaviour
             isJump = 0;
         }
     }
+    
+    /*
+    Vector3 target = new Vector3(8, 1.5f, 0);
 
+    private void Update()
+    {
+        // 1. MoveTowards
+        // transform.position = Vector3.MoveTowards(transform.position, target, 2f);
+
+        // 2. SmoothDamp
+        // Vector3 velo = Vector3.zero;
+
+        // transform.position = Vector3.SmoothDamp(transform.position, target, ref velo, 0.1f);
+
+        // 3. Lerp
+        // transform.position = Vector3.Lerp(transform.position, target, 0.005f);
+
+        // 4. SLerp
+        // transform.position = Vector3.Slerp(transform.position, target, 0.005f);
+    }
+    */
+
+    
 }
