@@ -299,3 +299,45 @@ Healing 함수를 Healing();로 표현하지 않고 Healing만 적었다가 생�
 ---
 1. Jump가 제대로 기능하지 않고 이동 시 다른 오브젝트에 닿으면 오류가 생김
 2. 해결 : 영상에는 FixedUpdate에 함수를 정의해야 한다고 했지만 실제로는 Update에 지정해주어야 정상 작동함 -> 영상의 오류
+
+---
+## 2023년 05월 15일
+---
+### 당일 공부 내용
+- https://youtu.be/k4YUJy-otDs
+---
+### UI
+---
+강의 영상과 현재 사용하는 UI가 달라짐 기본 개념만 인지하고 필요시 주의해서 사용할 것
+1. 화면
+  - World : 카메라 O
+  - Screen : 카메라 X
+2. Hierachy -> UI -> Canvas 생성(Screen 생성)
+3. Hierachy -> UI -> Text : 문자열 생성
+  - Font는 무료인 것을 찾아볼 것 아니면 사용 가능한 폰트 찾아봐야 함
+  - Overflow : 문자열이 넘어가도 보이도록 -> 종종 깨지는 경우 있으니 주의
+4. Hierachy -> UI -> Image : 이미지 UI
+  - 적용하고 싶은 이미지를 클릭해서 Texture Type을 Sprite로 바꿔 주어야 적용 가능(초기값인 Default는 불가능)
+  - 드래그해서 Source Image에 적용
+  - Preserve Aspect나 Set Native Size를 통해서 원본 비율을 맞추거나 원본 크기에 맞출 수 있음
+  - Image Type을 통해서 원하는 방식으로 이미지 표현 가능
+  - Width, Height 등으로 프레임 크기 파악
+  - Image Type -> Filled
+  - Filled 기능으로 쿨타임 효과 구현 가능(Fill Amount로 원형으로 드러나게 가능)
+  - 이미지의 순서는 Hierachy에서 아래에 있을 수록 나중에 그려지므로 아래에 만들어지면 나중에 만들어짐
+5. Hierachy -> UI -> Button
+  - 내부의 Text로 적혀있는 글자 바꾸기 가능
+  - Button -> Interactable : 누르면 기능하는지 여부 -> 눌렀다 떼는 과정이 하나의 동작 누르기만 하면 작동 X
+    - Color Tint : 색을 바꿔줌
+      - Nomal Color : 일반적인 상황의 색
+      - Highlighted Color : 마우스를 올렸을 때 색
+      - Pressed Color : 눌렀을 때 색
+      - Disabled Color : 사용 불가능할 때 색
+      - Navigation : tab을 눌렀을 때 기능
+      - On Click : 클릭했을 때 실행할 기능
+6. 앵커
+  - 원하는 위치에 UI를 위치시켜도 실행하면 안 맞는 경우 존재 -> 버그
+  - Rect Transform(Object의 Transform)의 왼쪽 위 사각형을 클릭해 Anchor Presets를 통해 파악
+  - 앵커의 빨간 점 : 캔버스의 기준점
+  - 앵커의 파란 점 : 컴포넌트에서의 기준점(Shift 클릭)
+  - 앵커 중앙 네모 : 컴포넌트의 위치(Shift + Alt)
